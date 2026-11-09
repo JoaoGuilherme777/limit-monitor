@@ -1,2 +1,3 @@
-List<Id> ids = LimitMonitorScheduler.scheduleAll();
-System.debug('REAGENDADOS=' + ids.size());
+// Agenda o snapshot diário dos limites (substitui o agendamento anterior, se existir).
+Id jobId = LimitMonitorScheduler.scheduleSnapshot();
+System.debug('JOB_ID=' + jobId);

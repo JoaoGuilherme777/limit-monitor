@@ -2,24 +2,16 @@
 private class LimitMonitorSchedulerTest {
 
     @IsTest
-    static void scheduleAllCreatesTwoJobsWithoutDuplicating() {
-        Test.startTest();
-        List<Id> first = LimitMonitorScheduler.scheduleAll();
-        List<Id> second = LimitMonitorScheduler.scheduleAll();
-        Test.stopTest();
-
-        System.assertEquals(2, first.size(), 'Deveria agendar 2 jobs');
-        System.assertEquals(2, second.size(), 'Reagendar deveria devolver 2 jobs');
+    static void scheduleSnapshotKeepsOnlyOneJob() {
+        LimitMonitorScheduler.scheduleSnapshot();
+        LimitMonitorScheduler.scheduleSnapshot();
 
         Integer active = [
             SELECT COUNT()
             FROM CronTrigger
-            WHERE CronJobDetail.Name IN :new List<String>{
-                LimitMonitorScheduler.SNAPSHOT_JOB,
-                LimitMonitorScheduler.RETENTION_JOB
-            }
+            WHERE CronJobDetail.Name = :LimitMonitorScheduler.SNAPSHOT_JOB
         ];
-        System.assertEquals(2, active, 'Reagendar não pode duplicar jobs');
+        System.assertEquals(1, active, 'Agendar de novo não pode duplicar o job');
     }
 
     @IsTest
