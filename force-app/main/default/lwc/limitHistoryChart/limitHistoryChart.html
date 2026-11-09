@@ -1,0 +1,47 @@
+<template>
+    <lightning-card title="Histórico de uso" icon-name="utility:chart">
+        <div slot="actions" class="slds-grid slds-grid_vertical-align-center slds-gutters_x-small">
+            <div class="slds-col">
+                <lightning-combobox
+                    label="Limite"
+                    variant="label-hidden"
+                    value={selectedLimit}
+                    options={limitOptions}
+                    onchange={handleLimitChange}
+                    disabled={isLoading}>
+                </lightning-combobox>
+            </div>
+            <div class="slds-col">
+                <lightning-combobox
+                    label="Período"
+                    variant="label-hidden"
+                    value={selectedDays}
+                    options={periodOptions}
+                    onchange={handlePeriodChange}
+                    disabled={isLoading}>
+                </lightning-combobox>
+            </div>
+        </div>
+
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium slds-is-relative">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Carregando histórico" size="medium"></lightning-spinner>
+            </template>
+
+            <template if:true={errorMessage}>
+                <div class="slds-text-color_error" role="alert">{errorMessage}</div>
+            </template>
+
+            <template if:true={showEmpty}>
+                <p class="slds-text-body_regular">Ainda não há snapshots para este período.</p>
+            </template>
+
+            <template if:true={hasPoints}>
+                <div style="height: 320px; position: relative;">
+                    <canvas lwc:dom="manual" role="img" aria-label={summaryText}></canvas>
+                </div>
+                <p class="slds-assistive-text">{summaryText}</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

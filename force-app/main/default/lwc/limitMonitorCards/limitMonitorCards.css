@@ -1,0 +1,28 @@
+.limit-card {
+    border: 1px solid var(--slds-g-color-border-1, #dddbda);
+    border-left-width: 0.375rem;
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    background: var(--slds-g-color-surface-container-1, #ffffff);
+    height: 100%;
+}
+
+.limit-card_ok {
+    border-left-color: #2e844a;
+}
+
+.limit-card_warning {
+    border-left-color: #dd7a01;
+}
+
+.limit-card_critical {
+    border-left-color: #c23934;
+}
+
+@media (prefers-color-scheme: dark) {
+    .limit-card {
+        border-color: #5a5a5a;
+        background: #1b1b1b;
+        color: #f3f3f3;
+    }
+}

@@ -1,0 +1,1 @@
+for (Limit_Alert__c a : [SELECT Name, Limit_Name__c, Percent_Used__c, Threshold_Percent__c, Alert_Key__c FROM Limit_Alert__c WITH SYSTEM_MODE ORDER BY CreatedDate DESC LIMIT 5]) { System.debug('ALERTA ' + a.Name + ' | ' + a.Limit_Name__c + ' | ' + a.Percent_Used__c + '% | threshold ' + a.Threshold_Percent__c + ' | key ' + a.Alert_Key__c); }

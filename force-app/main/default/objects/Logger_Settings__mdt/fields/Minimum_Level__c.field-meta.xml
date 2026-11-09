@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Minimum_Level__c</fullName>
+    <label>Minimum Level</label>
+    <description>Nível mínimo registrado: DEBUG, INFO, WARN ou ERROR. Entradas abaixo deste nível são descartadas antes de chegar ao buffer.</description>
+    <length>10</length>
+    <required>true</required>
+    <type>Text</type>
+</CustomField>

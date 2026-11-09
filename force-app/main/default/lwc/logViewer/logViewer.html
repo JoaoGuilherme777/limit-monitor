@@ -1,0 +1,140 @@
+<template>
+    <lightning-card title="Logs do sistema" icon-name="utility:error">
+        <div class="slds-p-horizontal_medium">
+
+            <!-- Filtros -->
+            <form class="slds-grid slds-wrap slds-gutters_small slds-m-bottom_small" onsubmit={handleApplyFilters}>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                    <lightning-combobox
+                        name="level"
+                        data-id="level"
+                        label="Nível"
+                        value={filters.level}
+                        options={levelOptions}
+                        onchange={handleLevelChange}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                    <lightning-input
+                        type="text"
+                        data-id="source"
+                        label="Origem (classe ou Flow)"
+                        value={filters.source}
+                        onchange={handleSourceChange}>
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                    <lightning-record-picker
+                        label="Usuário"
+                        placeholder="Buscar usuário..."
+                        object-api-name="User"
+                        value={filters.userId}
+                        onchange={handleUserChange}>
+                    </lightning-record-picker>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-grid slds-gutters_small">
+                    <div class="slds-col">
+                        <lightning-input
+                            type="date"
+                            label="Data inicial"
+                            value={filters.startDate}
+                            onchange={handleStartDateChange}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-input
+                            type="date"
+                            label="Data final"
+                            value={filters.endDate}
+                            onchange={handleEndDateChange}>
+                        </lightning-input>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-grid slds-grid_align-end slds-m-top_small">
+                    <lightning-button
+                        class="slds-m-right_x-small"
+                        label="Limpar"
+                        variant="neutral"
+                        onclick={handleClearFilters}>
+                    </lightning-button>
+                    <lightning-button
+                        data-id="apply"
+                        label="Filtrar"
+                        variant="brand"
+                        type="submit"
+                        onclick={handleApplyFilters}>
+                    </lightning-button>
+                </div>
+            </form>
+
+            <!-- Status (anunciado por leitores de tela) -->
+            <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small" aria-live="polite" role="status">
+                <p class="slds-text-body_small">{statusText}</p>
+                <div class="slds-grid slds-gutters_x-small">
+                    <lightning-combobox
+                        name="pageSize"
+                        label="Itens por página"
+                        variant="label-hidden"
+                        value={pageSizeValue}
+                        options={pageSizeOptions}
+                        onchange={handlePageSizeChange}>
+                    </lightning-combobox>
+                </div>
+            </div>
+
+            <!-- Erro -->
+            <template if:true={errorMessage}>
+                <div class="slds-notify slds-notify_alert slds-theme_error slds-m-bottom_small" role="alert">
+                    <span class="slds-assistive-text">Erro</span>
+                    <p>{errorMessage}</p>
+                </div>
+            </template>
+
+            <!-- Área da tabela com loading -->
+            <div class="slds-is-relative lv-table-area">
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Carregando logs" size="small"></lightning-spinner>
+                </template>
+
+                <template if:true={hasRows}>
+                    <lightning-datatable
+                        key-field="id"
+                        data={rows}
+                        columns={columns}
+                        hide-checkbox-column
+                        resize-column-disabled>
+                    </lightning-datatable>
+                </template>
+
+                <template if:true={showEmptyState}>
+                    <div class="slds-illustration slds-illustration_small slds-p-around_medium">
+                        <p class="slds-text-align_center slds-text-color_weak">
+                            Nenhum log encontrado com os filtros atuais.
+                        </p>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Paginação no servidor -->
+            <nav class="slds-grid slds-grid_align-center slds-m-vertical_medium" aria-label="Paginação dos logs">
+                <lightning-button
+                    class="slds-m-right_small"
+                    data-id="previous"
+                    label="Anterior"
+                    icon-name="utility:chevronleft"
+                    disabled={isFirstPage}
+                    onclick={handlePrevious}>
+                </lightning-button>
+                <lightning-button
+                    data-id="next"
+                    label="Próxima"
+                    icon-name="utility:chevronright"
+                    icon-position="right"
+                    disabled={isLastPage}
+                    onclick={handleNext}>
+                </lightning-button>
+            </nav>
+
+        </div>
+    </lightning-card>
+</template>

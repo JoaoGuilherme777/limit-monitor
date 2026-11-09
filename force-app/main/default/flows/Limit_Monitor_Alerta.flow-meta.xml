@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Avaliar_alerta_de_limite</name>
+        <label>Avaliar alerta de limite</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <actionName>LimitAlertInvocable</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>snapshotId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>LimitAlertInvocable</nameSegment>
+    </actionCalls>
+    <apiVersion>67.0</apiVersion>
+    <description>Dispara o alerta de limite (Limit_Alert__c + Custom Notification) quando um snapshot chega a 70% ou mais. O threshold exato vem do Limit_Threshold__mdt.</description>
+    <environments>Default</environments>
+    <interviewLabel>Limit Monitor - Alerta {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Limit Monitor - Alerta de limite</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <connector>
+            <targetReference>Avaliar_alerta_de_limite</targetReference>
+        </connector>
+        <filterFormula>{!$Record.Percent_Used__c} &gt;= 70</filterFormula>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <object>Limit_Snapshot__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

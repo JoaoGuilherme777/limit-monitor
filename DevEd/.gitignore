@@ -1,0 +1,8 @@
+.sfdx/
+.sf/
+.vscode/
+.DS_Store
+node_modules/
+coverage/
+*.log
+package-lock.json

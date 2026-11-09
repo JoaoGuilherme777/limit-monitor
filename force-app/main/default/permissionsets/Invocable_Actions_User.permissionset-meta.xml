@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>BusinessDaysAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FormatPhoneAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GenerateSlugAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReadRelatedFieldAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SplitStringAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ValidateDocumentAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <description>Permite executar as Invocable Actions da biblioteca dentro de Flows. As classes utilitárias são chamadas pelas ações e não precisam de permissão própria.</description>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>Demo_Invocable_Actions</flow>
+    </flowAccesses>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Invocable Actions User</label>
+</PermissionSet>
