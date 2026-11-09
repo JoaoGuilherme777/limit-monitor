@@ -36,14 +36,13 @@ sequenceDiagram
 
 | Camada | Itens |
 |---|---|
-| Dados | `Log__c` (objeto de log), `Log_Event__e` (transporte), `Logger_Settings__mdt` (retenção e nível mínimo) |
+| Dados | `Log__c` (objeto de log), `Log_Event__e` (transporte), `Logger_Settings__mdt` (nível mínimo) |
 | API Apex | `Logger`, `LogLevel`, `LogSettings` |
 | Persistência | `LogEventTrigger` → `LogEventHandler` |
 | Flow | `LoggerInvocable` (Invocable Action "Registrar log") |
 | Consulta | `LogViewerController` (paginação no servidor, `USER_MODE`) + LWC `logViewer` |
-| Retenção | `LogRetentionBatch`, `LogRetentionScheduler` |
 | Segurança | Permission sets `Logger_Writer`, `Logger_Viewer`, `Logger_Admin` |
-| Testes | 5 classes de teste Apex (sem `SeeAllData`) + 7 testes Jest para o LWC |
+| Testes | 4 classes de teste Apex (sem `SeeAllData`) + 7 testes Jest para o LWC |
 
 ## Uso
 
@@ -74,15 +73,11 @@ Use a ação **Registrar log** (`LoggerInvocable`). Campos: `Nível` (DEBUG, INF
 
 ### Consulta
 
-Atribua a permission set **Logger Viewer** ao usuário e adicione o componente `logViewer` a uma página Lightning (App, Home ou Record).
+Atribua a permission set **Logger Viewer** ao usuário. A App Page **Logs da Aplicação** já contém o componente `logViewer`. Para vê-la, ative-a em *Setup → Lightning App Builder* e atribua-a a um app.
 
 ### Retenção
 
-Configure o prazo em **Logger Settings → Default → Retention Days** (padrão: 90). Para agendar a limpeza diária (02:00):
-
-```bash
-sf apex run -o <alias> -f scripts/apex/schedule-log-retention.apex
-```
+Não há política de retenção neste projeto. Os logs ficam na org até serem apagados manualmente.
 
 ## Deploy
 
@@ -105,7 +100,7 @@ sf project deploy start -o <alias> \
   --source-dir force-app/main/default/triggers/LogEventTrigger.trigger-meta.xml \
   --source-dir force-app/main/default/lwc/logViewer \
   --test-level RunSpecifiedTests \
-  -t LoggerTest -t LogEventHandlerTest -t LoggerInvocableTest -t LogViewerControllerTest -t LogRetentionBatchTest
+  -t LoggerTest -t LogEventHandlerTest -t LoggerInvocableTest -t LogViewerControllerTest
 ```
 
 > Use `--dry-run` para validar sem gravar na org. Os caminhos com curinga (`Log*.cls`) dependem do shell; em PowerShell, passe a lista de arquivos explicitamente se o curinga não expandir.
@@ -151,11 +146,11 @@ DevEd/
 │   ├── logger-arquitetura.md   # análise de rollback, decisões e riscos
 │   └── linkedin-post.md        # rascunho do post
 └── (o código fica em ../force-app/main/default/, na raiz do projeto)
-    ├── classes/                # Logger, LogSettings, LogEventHandler, LoggerInvocable, LogViewerController, LogRetention*, testes
+    ├── classes/                # Logger, LogSettings, LogEventHandler, LoggerInvocable, LogViewerController, testes
 │   ├── triggers/               # LogEventTrigger
 │   ├── objects/                # Log__c, Log_Event__e, Logger_Settings__mdt
 │   ├── customMetadata/         # Logger_Settings.Default
 │   ├── permissionsets/         # Logger_Writer, Logger_Viewer, Logger_Admin
 │   └── lwc/logViewer/          # visualizador com filtros e paginação
-└── scripts/apex/               # agendamento da retenção
+│   └── flexipages/             # App Page Logs da Aplicação
 ```

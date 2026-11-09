@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Logged_At__c</fullName>
     <label>Logged At</label>
-    <description>Momento em que o evento foi originado (não o momento da persistência). Usado em filtros e na retenção.</description>
+    <description>Momento em que o evento foi originado (não o momento da persistência). Usado em filtros.</description>
     <required>true</required>
     <type>DateTime</type>
 </CustomField>

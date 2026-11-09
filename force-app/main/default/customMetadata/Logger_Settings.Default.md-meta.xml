@@ -3,10 +3,6 @@
     <label>Default</label>
     <protected>false</protected>
     <values>
-        <field>Retention_Days__c</field>
-        <value xsi:type="xsd:double">90</value>
-    </values>
-    <values>
         <field>Minimum_Level__c</field>
         <value xsi:type="xsd:string">INFO</value>
     </values>

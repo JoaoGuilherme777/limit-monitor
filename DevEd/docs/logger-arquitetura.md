@@ -79,7 +79,7 @@ Exceção não tratada que derruba a transação inteira (por exemplo, validatio
 - **Buffer em memória:** nenhuma publicação por chamada de log. O `flush()` publica em lotes de 200 eventos por chamada de `EventBus.publish`. Ao atingir 200 entradas, o buffer é publicado automaticamente.
 - **Limite de chamadas de publicação por transação** (o número de 150 aparece nas fontes consultadas; confirmar na documentação da versão alvo). Com lotes de 200, o teto prático fica na ordem de dezenas de milhares de entradas por transação.
 - **Limite de eventos por 24h** depende da licença. Monitorar em Setup. Em volume alto, reduzir o nível mínimo (`Logger_Settings__mdt.Minimum_Level__c`) é a primeira alavanca.
-- **Armazenamento:** `Log__c` cresce sem limite. O `LogRetentionBatch` apaga pelo prazo de `Logger_Settings__mdt.Retention_Days__c`. Em orgs grandes, solicitar índice customizado em `Logged_At__c` ao Salesforce.
+- **Armazenamento:** `Log__c` cresce sem limite. Não há política de retenção neste projeto (decisão deliberada, por ser um projeto de portfólio). Em uma org de produção, seria preciso definir uma política de retenção e, em volume alto, solicitar índice customizado em `Logged_At__c` ao Salesforce.
 - **Logs dentro de loops:** o padrão é acumular no buffer e não chamar `flush()` dentro do loop. O `Logger` já evita publicar a cada iteração; o `flush()` automático só ocorre a cada 200 entradas.
 - **Tamanho:** mensagem e stack trace são truncados em 32.000 caracteres, abaixo do limite do campo.
 
@@ -96,7 +96,7 @@ Teste: `LoggerTest.dispatchGuardPreventsLogsFromBeingQueuedWhileHandlerRuns`.
 ## 7. Testabilidade
 
 - `Test.startTest()` / `Test.stopTest()`: a entrega dos eventos acontece no `stopTest`, e a trigger roda nesse momento. Os asserts sobre `Log__c` ficam depois do `stopTest`.
-- Overrides `@TestVisible` em `LogSettings` (retenção e nível mínimo) permitem testar sem depender do registro de CMDT da org.
+- Override `@TestVisible` em `LogSettings` (nível mínimo) permite testar sem depender do registro de CMDT da org.
 - Cenários de rollback são testados com savepoint real (`LoggerTest`).
 - Testes de consulta rodam como um usuário com a permission set `Logger Viewer`, porque a consulta usa `USER_MODE`. Rodar como admin mascara erros de FLS (ver seção 9).
 - Sem `SeeAllData`. Dados são criados em `@TestSetup` ou no próprio teste.
@@ -109,7 +109,6 @@ Teste: `LoggerTest.dispatchGuardPreventsLogsFromBeingQueuedWhileHandlerRuns`.
 | Escrita por código de usuário | `Logger Writer` concede create em `Log_Event__e`. |
 | Consulta do LWC | `Database.queryWithBinds(..., AccessLevel.USER_MODE)`: CRUD, FLS e sharing do usuário. |
 | Gravação do handler | `SYSTEM_MODE`, justificado: é persistência interna de uma entrada já autorizada na origem. O usuário de origem é preservado em `User__c`. |
-| Retenção | `USER_MODE` também. A permission set `Logger Admin` concede delete. |
 | Injeção | Todos os filtros entram como bind variables. `LIKE` tem `%` e `_` escapados. |
 | Usuário de origem | Capturado no momento do log, porque o trigger do evento roda como usuário de sistema. |
 | Campos obrigatórios em permission set | Salesforce não aceita entrada de FLS para campo obrigatório. Eles ficam visíveis por herança do acesso de leitura ao objeto. |

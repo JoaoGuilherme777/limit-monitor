@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <label>Logger Admin</label>
-    <description>Administração do Logger: leitura, edição e exclusão de logs, além do agendamento da retenção.</description>
+    <description>Administração do Logger: leitura, edição e exclusão de logs.</description>
     <hasActivationRequired>false</hasActivationRequired>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -48,14 +48,6 @@
     </fieldPermissions>
     <classAccesses>
         <apexClass>LogViewerController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>LogRetentionScheduler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>LogRetentionBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
 </PermissionSet>
