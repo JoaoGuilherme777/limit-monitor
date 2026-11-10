@@ -11,6 +11,16 @@ Monitora os limites da org Salesforce: mostra o uso atual em cards, guarda um hi
 
 Os cards usam faixas fixas: normal abaixo de 70%, atenção de 70% a 90% e crítico acima de 90%.
 
+## Por que importa
+
+Quando um limite da org estoura (chamadas de API, storage ou licenças), os processos que dependem dele param. Descobrir o consumo só no momento do problema é tarde demais.
+
+## Ganho
+
+- O histórico diário mostra a tendência de consumo, e dá tempo de agir antes de bater no limite.
+- Os alertas seguem thresholds configuráveis em `Limit_Threshold__mdt`, sem alterar código.
+- Uma única tela mostra todos os limites, sem abrir o Setup a cada verificação.
+
 ## Deploy
 
 Pré-requisitos: Salesforce CLI e uma Developer Edition.
