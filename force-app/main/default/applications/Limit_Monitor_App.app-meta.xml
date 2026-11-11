@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Monitor de limites da org: uso atual, histórico e alertas.</description>
+    <formFactors>Large</formFactors>
+    <label>Limit Monitor</label>
+    <navType>Standard</navType>
+    <tabs>Limit_Monitor</tabs>
+    <uiType>Lightning</uiType>
+</CustomApplication>
